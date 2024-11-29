@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ *  Group Members:
+ *  Henrique Custodio (101497015)
+ *  Fitsum Asgedom ()
+ *  Jinah Ahn (100902591) 
+ *
+ */
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 using FlightReservationSystemProject;
@@ -10,8 +18,6 @@ class Program
     public const string RED = "\u001B[31m";
     public const string GREEN = "\u001B[32m";
     public const string YELLOW = "\u001B[33m";
-    public const string BLUE = "\u001B[34m";
-    public const string PURPLE = "\u001B[35m";
     public const string CYAN = "\u001B[36m";
 
     static void Main(string[] args)
@@ -67,7 +73,7 @@ class Program
             static bool ConfirmExit()
             {
                 Console.Write(RED+"Exit the Program? (Y/N): "+RESET);
-                // ? is for the conversion of null literal and/or value into non-nullable type. TODO: Perhaps another way to confirm this? 
+                // ? is for the conversion of null literal and/or value into non-nullable type.
                 string confirmation = Console.ReadLine()?.Trim().ToUpper() ?? "N";
                return confirmation.Equals("Y");
                 

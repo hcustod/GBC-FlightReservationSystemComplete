@@ -9,11 +9,6 @@ public class Booking
     private CustomerAcc customer;
     private Flight flight;
 
-    public int BookingNum => bookingNum;
-    public string BookingDate => bookingDate;
-    public CustomerAcc Customer => customer;
-    public Flight Flight => flight;
-
     public Booking(CustomerAcc customer, Flight flight)
     {
         this.bookingNum = bookingNumCounter++;
@@ -24,21 +19,11 @@ public class Booking
         customer.AddBookingCount();
         flight.AddPassangerToFlight();
     }
-
-    public void CancelBooking()
-    {
-        customer.RemoveBookingsCount();
-        flight.RemovePassangerFromFlight();
-    }
-
+    
     public override string ToString()
     {
         return
             $"Booking Number: {bookingNum}, Date: {bookingDate}, Customer: {customer.CustomerFirstName} {customer.CustomerLastName}, Flight: {flight.FlightNum}";
     }
-
-
-
-
-
+    
 }

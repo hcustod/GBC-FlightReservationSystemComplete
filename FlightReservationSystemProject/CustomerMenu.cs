@@ -3,12 +3,11 @@
 public class CustomerMenu
 {
     private const string CustomerFile = "./customers.txt";
+    private const string BookingsFile = "./bookings.txt";
     public const string RESET = "\u001B[0m";
     public const string RED = "\u001B[31m";
     public const string GREEN = "\u001B[32m";
     public const string YELLOW = "\u001B[33m";
-    public const string BLUE = "\u001B[34m";
-    public const string PURPLE = "\u001B[35m";
     public const string CYAN = "\u001B[36m";
 
     
@@ -21,7 +20,7 @@ public class CustomerMenu
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine(YELLOW + "  ╔═════════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("  ║              Welcome to Extreme Flight Reservation System!              ║");
+            Console.WriteLine("  ║                          Extreme Customer Menu!                         ║");
             Console.WriteLine("  ╚═════════════════════════════════════════════════════════════════════════╝" + RESET);
 
             Console.WriteLine(CYAN+"\nPlease select a choice from the options below (1-4):"+RESET);
@@ -58,7 +57,6 @@ public class CustomerMenu
         }
     }
 
-    // TODO: Add customer should first call to check for duplicate customerID. 
     // If customer does not exist on file it should then create a customer object with user input.
     // Customer object to string.
     // string to array. 
@@ -218,28 +216,35 @@ public class CustomerMenu
 
         try
         {
-            string[] lines = FileAndMenuHelperMethods.ReadFile(CustomerFile);
-            string[] updatedLines = new string[lines.Length];
+            // Check for customers existing booking. Provide error if found and return. 
+            string[] bookingLines = FileAndMenuHelperMethods.ReadFile(BookingsFile);
+            foreach (string bookingLine in bookingLines)
+            {
+                string[] bookingParts = bookingLine.Split('|');
+                if (bookingParts.Length > 2 && int.Parse(bookingParts[2]) == id)
+                {
+                    Console.WriteLine(RED + "Cannot delete customer with existing booking." + RESET);
+                    FileAndMenuHelperMethods.Pause();
+                    return;
+                }
+            }
+            
+            // Delete customer if no existing booking found. 
+            string[] customerLines = FileAndMenuHelperMethods.ReadFile(CustomerFile);
+            string[] updatedLines = new string[customerLines.Length];
             int index = 0;
             bool found = false;
 
-            foreach (string line in lines)
+            foreach (string line in customerLines)
             {
                 string[] parts = line.Split('|');
                 if (int.TryParse(parts[0], out int customerID) && customerID == id)
                 {
-                    if (int.Parse(parts[4]) > 0)
-                    {
-                        Console.WriteLine("Cannot delete customer with existing bookings.");
-                        FileAndMenuHelperMethods.Pause();
-                        return;
-                    }
-
-                    found = true; 
+                    found = true;
                 }
                 else
                 {
-                    updatedLines[index++] = line; 
+                    updatedLines[index++] = line;
                 }
             }
 

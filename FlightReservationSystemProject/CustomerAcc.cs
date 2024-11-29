@@ -2,10 +2,9 @@ namespace FlightReservationSystemProject;
 
 using System; 
 using System.Linq;
-// The System.Linq namespace provides methods like Where, Select, and ToArray for querying and manipulating data collections
+// The System.Linq namespace provides methods Where, Select, and ToArray for querying and manipulating data/arrays. 
 
-// TODO: Keep names as is for data structs? 
-// Data structures (CustomerAcc, Flight, Booking) 
+// Data structure
 public class CustomerAcc
 {
     private int customerID;
@@ -13,9 +12,7 @@ public class CustomerAcc
     private string customerLastName;
     private string customerPhoneNum;
     private int customerNumOfBookings;
-
-    public static int customerIDCount = 1;
-
+    
     public int CustomerID
     {
         get { return customerID; }
@@ -89,7 +86,6 @@ public class CustomerAcc
         }
     }
     
-    // TODO: A less complex way of doing this. Perhaps looping over phone string and just pulling digits only
     private string CleanPhonenumber(string customerphone_p)
     {
         return string.Concat(PhoneNumber.Where(char.IsDigit));
@@ -100,23 +96,6 @@ public class CustomerAcc
         customerNumOfBookings++;
     }
 
-    public void RemoveBookingsCount()
-    {
-        if (customerNumOfBookings > 0)
-        {
-            customerNumOfBookings--;
-        }
-    }
-
-    // Default constructor; no params. Needed for main menu object init when no user input yet given. 
-    public CustomerAcc()
-    {
-        customerID = customerIDCount++;
-        customerFirstName = string.Empty;
-        customerLastName = string.Empty;
-        customerPhoneNum = string.Empty;
-        customerNumOfBookings = 0;
-    }
     
     // Constructor for Customer account object
     public CustomerAcc( int customerID,string customerFirstName_p, string customerLastName_p, string customerPhoneNum_p)

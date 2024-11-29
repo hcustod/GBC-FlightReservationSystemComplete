@@ -6,6 +6,7 @@ using System.IO;
 
 public static class FileAndMenuHelperMethods
 {
+    
     // Check if file exists and read all lines from file if true. 
     public static string[] ReadFile(string fileName_p)
     {
@@ -38,19 +39,6 @@ public static class FileAndMenuHelperMethods
             $"{customer.CustomerID}|{customer.CustomerFirstName}|{customer.CustomerLastName}|{customer.PhoneNumber}|{customer.CustomerNumOfBookings}";
         AppendToFile(filename_p, customerLine);
     }
-
-    public static void AddFlight(string filename_p, Flight flight)
-    {
-        string flightLine =
-            $"{flight.FlightNum}|{flight.FlightOrigin}|{flight.FlightDestination}|{flight.FlightMaxSeats}|";
-        AppendToFile(filename_p, flightLine);
-    }
-
-    public static void AddBooking(string filename_p, Booking booking)
-    {
-        string bookingLine = $"{booking.BookingNum}|{booking.Customer.CustomerID}|{booking.Flight.FlightNum}|{booking.BookingDate}";
-        AppendToFile(filename_p, bookingLine);
-    }
     
     public static void Pause()
     {
@@ -61,7 +49,7 @@ public static class FileAndMenuHelperMethods
     public static bool ConfirmReturnToMainMenu()
     {
         Console.Write("Are you sure want to return to the Main Menu? (Y/N): ");
-        // ? is for the conversion of null literal and/or value into non-nullable type. TODO: Perhaps another way to confirm this? 
+        // ? is for the conversion of null literal and/or value into non-nullable type.
         string confirmation = Console.ReadLine()?.Trim().ToUpper() ?? "N";
         return confirmation == "Y";
     }

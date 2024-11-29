@@ -9,8 +9,6 @@ public class BookingMenu
     public const string RED = "\u001B[31m";
     public const string GREEN = "\u001B[32m";
     public const string YELLOW = "\u001B[33m";
-    public const string BLUE = "\u001B[34m";
-    public const string PURPLE = "\u001B[35m";
     public const string CYAN = "\u001B[36m";
 
     private const string CustomersFile = "./customers.txt";
@@ -116,7 +114,6 @@ public class BookingMenu
                 if (bookingParts.Length < 4) continue;
 
                 int existingCustomerId = int.Parse(bookingParts[2]);
-                int existingFlightNum = int.Parse(bookingParts[3]);
                 DateTime existingBookingTime = DateTime.Parse(bookingParts[1]);
 
                 // Check if the same customer has a booking within one hour
@@ -132,6 +129,9 @@ public class BookingMenu
             int bookingID = bookingLines.Length + 1;
             string newBookingLine = $"{bookingID}|{DateTime.Now}|{customerId}|{flightNum}";
             FileAndMenuHelperMethods.AppendToFile(BookingsFile, newBookingLine);
+            
+            // Increment customers booking count
+            ObjectHelperMethods.UpdateCustomerBookingCount(customerId, 1);
 
             // Update Flight passenger count
             string[] updatedFlights = new string[flightLines.Length];
@@ -159,8 +159,80 @@ public class BookingMenu
 
         FileAndMenuHelperMethods.Pause();
     }
+    
+    
+    // Delete booking: Not specified in Assignment instructions but necessary. 
+    private void DeleteBooking()
+    {
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine(YELLOW + "  ╔═══════════════════════════════════════════════════════════════╗");
+        Console.WriteLine("  ║                      Delete Flight Booking!                      ║");
+        Console.WriteLine("  ╚═══════════════════════════════════════════════════════════════╝" + RESET);
+        Console.WriteLine("");
+        
+        Console.WriteLine(CYAN+"Enter a valid Booking ID to delete: "+RESET);
 
+        if (!int.TryParse(Console.ReadLine(), out int bookingID))
+        {
+            Console.WriteLine(RED + "Invalid Booking ID." + RESET);
+            FileAndMenuHelperMethods.Pause();
+            return;
+        }
 
+        try
+        {
+            string[] bookingLines = FileAndMenuHelperMethods.ReadFile(BookingsFile);
+            string[] updatedLines = new string[bookingLines.Length];
+            int index = 0;
+            bool found = false;
+
+            foreach (var line in bookingLines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+
+                string[] parts = line.Split('|');
+                if (int.Parse(parts[0]) == bookingID)
+                {
+                    found = true;
+
+                    int customerID = int.Parse(parts[2]);
+                    int flightID = int.Parse(parts[2]);
+                    ObjectHelperMethods.UpdateCustomerBookingCount(customerID, -1);
+                    ObjectHelperMethods.UpdateFlightPassengerCount(flightID, -1);
+
+                    // Skip adding booking to updatedLines
+                    continue;
+                }
+
+                updatedLines[index++] = line;
+            }
+
+            if (!found)
+            {
+                Console.WriteLine(RED + "Booking not found." + RESET);
+            }
+            else
+            {
+                // Write updated string back to file
+                string[] finalLines = new string[index];
+                Array.Copy(updatedLines, finalLines, index);
+                FileAndMenuHelperMethods.WriteFile(BookingsFile, finalLines);
+                Console.WriteLine(GREEN + "Booking deleted successfully." + RESET);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(RED + $"Error: {ex.Message}" + RESET);
+        }
+        
+        FileAndMenuHelperMethods.Pause();
+    }
+    
     private void ViewAllBookings()
     {
         Console.Clear();
@@ -204,9 +276,6 @@ public class BookingMenu
         FileAndMenuHelperMethods.Pause();
     }
 
-
-
-
     public void ShowMenu()
     {
         bool RUNNING = true;
@@ -221,8 +290,9 @@ public class BookingMenu
             Console.WriteLine("");
             Console.WriteLine(CYAN+"\n Please select a choice from the options below (1-4):"+RESET);
             Console.WriteLine(GREEN+"\n 1. Add Booking.");
-            Console.WriteLine("\n 2. View All Bookings."+RESET);
-            Console.WriteLine(RED+"\n 3. Back to Main Menu. "+RESET);
+            Console.WriteLine("\n 2. View All Bookings.");
+            Console.WriteLine("\n 3. Delete Booking."+RESET);
+            Console.WriteLine(RED+"\n 4. Back to Main Menu. "+RESET);
             Console.Write(CYAN+"Select an option: "+RESET);
             
             string userChoice = Console.ReadLine()?.Trim();
@@ -235,6 +305,9 @@ public class BookingMenu
                     ViewAllBookings();
                     break;
                 case "3":
+                    DeleteBooking();
+                    break;
+                case "4":
                     if (FileAndMenuHelperMethods.ConfirmReturnToMainMenu())
                     {
                         RUNNING = false; 

@@ -8,15 +8,10 @@ public class FlightMenu
     public const string RED = "\u001B[31m";
     public const string GREEN = "\u001B[32m";
     public const string YELLOW = "\u001B[33m";
-    public const string BLUE = "\u001B[34m";
-    public const string PURPLE = "\u001B[35m";
     public const string CYAN = "\u001B[36m";
 
-    private const string CustomersFile = "./customers.txt";
     private const string FlightsFile = "./flights.txt";
-    private const string BookingsFile = "./bookings.txt";
-
-
+    
     public void ShowMenu()
     {
         bool RUNNING = true;
@@ -193,10 +188,9 @@ public class FlightMenu
         FileAndMenuHelperMethods.Pause();
     }
 
+    
 
-
-
-    // View Flight
+    // View single Flight via ID. 
     private void ViewSpecificFlight()
     {
         Console.Clear();
@@ -306,8 +300,4 @@ public class FlightMenu
         
         FileAndMenuHelperMethods.Pause();
     }
-    
-    
-    
-    
 }

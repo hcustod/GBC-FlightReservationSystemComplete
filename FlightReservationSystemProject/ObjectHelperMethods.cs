@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 public class ObjectHelperMethods
 {
+    
+    private const string CustomersFile = "./customers.txt";
+    private const string FlightsFile = "./flights.txt";
+    
     // Find customer by ID
     public static string FindCustomerByID(int id, string[] lines)
     {
@@ -18,11 +22,6 @@ public class ObjectHelperMethods
         }
         
         return null;
-    }
-
-    public static bool IsCustomerIDUnique(int id, string[] lines)
-    {
-        return FindCustomerByID(id, lines) == null; 
     }
 
     // Parses customer record from txt file into string
@@ -56,19 +55,46 @@ public class ObjectHelperMethods
         string[] parts = line.Split('|');
         return $"Number: {parts[0]}, Origin: {parts[1]}, Destination: {parts[2]}, Max Seats: {parts[3]}, Passengers: {parts[4]}";
     }
-
-    public static string FindBookingByID(int bookingID, string[] lines)
+    
+    
+    public static void UpdateCustomerBookingCount(int customerId, int d)
     {
-        foreach (var line in lines)
+        string[] customerLines = FileAndMenuHelperMethods.ReadFile(CustomersFile);
+        string[] updatedLines = new string[customerLines.Length];
+        
+        for (int i = 0; i < customerLines.Length; i++)
         {
-            string[] parts = line.Split('|');
-            if (int.Parse(parts[0]) == bookingID)
+            string[] parts = customerLines[i].Split('|');
+            if (int.Parse(parts[0]) == customerId)
             {
-                return line;
+                int currentBookings = int.Parse(parts[4]);
+                int newBookings = Math.Max(currentBookings + d, 0);
+                parts[4] = newBookings.ToString();
             }
-        }
 
-        return null; 
+            updatedLines[i] = string.Join('|', parts);
+        }
+        
+        FileAndMenuHelperMethods.WriteFile(CustomersFile, updatedLines);
+    }
+
+    public static void UpdateFlightPassengerCount(int flightid, int d)
+    {
+        string[] flightLines = FileAndMenuHelperMethods.ReadFile(FlightsFile);
+        string[] updatedLines = new string[flightLines.Length];
+
+        for (int i = 0; i < flightLines.Length; i++)
+        {
+            string[] parts = flightLines[i].Split('|');
+            if (int.Parse(parts[0]) == flightid)
+            {
+                parts[4] = (int.Parse(parts[4]) + d).ToString(); // Updating passanger count.
+            }
+
+            updatedLines[i] = string.Join('|', parts);
+        }
+        
+        FileAndMenuHelperMethods.WriteFile(FlightsFile, updatedLines);
     }
     
 }

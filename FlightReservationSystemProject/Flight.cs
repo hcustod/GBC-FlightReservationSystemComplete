@@ -66,14 +66,7 @@ public class Flight
             flightMaxSeats = value;
         }
     }
-
-    public int CountPassangers
-    {
-        get
-        {
-            return flightPasangerCount;
-        }
-    }
+    
     
     public bool AddPassangerToFlight()
     {
@@ -84,17 +77,7 @@ public class Flight
         }
         return false;
     }
-
-    public bool RemovePassangerFromFlight()
-    {
-        if (flightPasangerCount > 0)
-        {
-            flightPasangerCount--;
-            return true;
-        }
-        return false; 
-    }
-
+    
     public Flight(int flightNum, string flightOrigin, string flightDestination, int flightMaxSeats)
     {
         this.flightNum = flightNum;

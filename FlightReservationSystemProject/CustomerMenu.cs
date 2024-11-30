@@ -23,12 +23,12 @@ public class CustomerMenu
             Console.WriteLine("  ║                          Extreme Customer Menu!                         ║");
             Console.WriteLine("  ╚═════════════════════════════════════════════════════════════════════════╝" + RESET);
 
-            Console.WriteLine(CYAN+"\nPlease select a choice from the options below (1-4):"+RESET);
+            Console.WriteLine(CYAN+"\nPlease select a choice from the options below (Enter 1-4):"+RESET);
             Console.WriteLine(GREEN+"\n 1. Add Customer.");
             Console.WriteLine("\n 2. View all Customers.");
             Console.WriteLine("\n 3. Delete Customer. "+ RESET);
             Console.WriteLine(RED+"\n 4. Back to Main Menu." + RESET);
-            Console.Write(CYAN+"\n    Selected Option:  "+RESET);
+            Console.Write(CYAN+"\nSelect an Option:  "+RESET);
             string userChoice = Console.ReadLine()?.Trim();
             
             switch (userChoice)
@@ -47,7 +47,6 @@ public class CustomerMenu
                     {
                         RUNNING = false;
                     }
-                    RUNNING = false;
                     break;
                 default:
                     Console.WriteLine("Invalid option please select an option by inputting a number between 1-4.");
@@ -146,7 +145,7 @@ public class CustomerMenu
         {
             CustomerAcc newCustomer = new CustomerAcc(nextCustomerId,firstName, lastName, phoneNumber);
             FileAndMenuHelperMethods.AddCustomer(CustomerFile, newCustomer);
-            Console.WriteLine(GREEN + "     Customer added successfully!" + RESET);
+            Console.WriteLine(GREEN + "\n    Customer added successfully!" + RESET);
         }
         catch (Exception ex)
         {
@@ -257,7 +256,7 @@ public class CustomerMenu
                 string[] finalLines = new string[index];
                 Array.Copy(updatedLines, finalLines, index);
                 FileAndMenuHelperMethods.WriteFile(CustomerFile, finalLines);
-                Console.WriteLine("Customer deleted successfully.");
+                Console.WriteLine(GREEN + "\n   Customer deleted successfully." + RESET);
             }
         }
         catch (Exception ex)

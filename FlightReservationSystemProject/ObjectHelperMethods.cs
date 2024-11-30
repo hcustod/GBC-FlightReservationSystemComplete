@@ -56,28 +56,37 @@ public class ObjectHelperMethods
         return $"Number: {parts[0]}, Origin: {parts[1]}, Destination: {parts[2]}, Max Seats: {parts[3]}, Passengers: {parts[4]}";
     }
     
-    
+    // Method to update customer booking count displayed on view customers. 
+    // 1st param takes the customer id to update and the second takes the change (+1 or -1).
     public static void UpdateCustomerBookingCount(int customerId, int d)
     {
+        // Read lines from customer.txt and put into array
         string[] customerLines = FileAndMenuHelperMethods.ReadFile(CustomersFile);
         string[] updatedLines = new string[customerLines.Length];
         
+        // Loop through array for each customer
         for (int i = 0; i < customerLines.Length; i++)
         {
+            // Split line into parts given pipe delimiter
             string[] parts = customerLines[i].Split('|');
+            // If line matches customer id, update the count
             if (int.Parse(parts[0]) == customerId)
             {
-                int currentBookings = int.Parse(parts[4]);
-                int newBookings = Math.Max(currentBookings + d, 0);
+                int currentBookings = int.Parse(parts[4]);  // Get current count
+                int newBookings = Math.Max(currentBookings + d, 0); // Limit to prevent below 0 value.
                 parts[4] = newBookings.ToString();
             }
 
+            // Create new string from joining the parts
             updatedLines[i] = string.Join('|', parts);
         }
         
+        // Write updated customer lines back to the customers.txt
         FileAndMenuHelperMethods.WriteFile(CustomersFile, updatedLines);
     }
 
+    // Method to update flight passenger count displayed on view flights. 
+    // 1st param takes the flight id to update and the second takes the change (+1 or -1).
     public static void UpdateFlightPassengerCount(int flightid, int d)
     {
         string[] flightLines = FileAndMenuHelperMethods.ReadFile(FlightsFile);

@@ -15,6 +15,7 @@ public class BookingMenu
     private const string FlightsFile = "./flights.txt";
     private const string BookingsFile = "./bookings.txt";
 
+    // Add single booking given valid customer id and flight id input. 
     private void AddBooking()
     {
         Console.Clear();
@@ -40,7 +41,7 @@ public class BookingMenu
             Console.WriteLine(ObjectHelperMethods.ParseCustomer(line));
         }
 
-        Console.Write(CYAN + "Enter Customer ID: " + RESET);
+        Console.Write(CYAN + "\nEnter Customer ID: " + RESET);
         if (!int.TryParse(Console.ReadLine(), out int customerId))
         {
             Console.WriteLine(RED + " ! Invalid Customer ID." + RESET);
@@ -73,7 +74,7 @@ public class BookingMenu
         }
 
         // Ask for flight number and check if valid
-        Console.Write(CYAN + "Enter Flight Number: " + RESET);
+        Console.Write(CYAN + "\nEnter Flight Number: " + RESET);
         if (!int.TryParse(Console.ReadLine(), out int flightNum))
         {
             Console.WriteLine(RED + " ! Invalid Flight Number." + RESET);
@@ -150,7 +151,7 @@ public class BookingMenu
             }
 
             FileAndMenuHelperMethods.WriteFile(FlightsFile, updatedFlights);
-            Console.WriteLine(GREEN + $"Booking created successfully! Booking ID: {bookingID}" + RESET);
+            Console.WriteLine(GREEN + $"\n  Booking created successfully! Booking ID: {bookingID}" + RESET);
         }
         catch (Exception ex)
         {
@@ -161,7 +162,7 @@ public class BookingMenu
     }
     
     
-    // Delete booking: Not specified in Assignment instructions but necessary. 
+    // Delete booking: Not specified in Assignment instructions but necessary.
     private void DeleteBooking()
     {
         Console.Clear();
@@ -183,6 +184,7 @@ public class BookingMenu
 
         try
         {
+            // Searches for booking and if found remove from file. 
             string[] bookingLines = FileAndMenuHelperMethods.ReadFile(BookingsFile);
             string[] updatedLines = new string[bookingLines.Length];
             int index = 0;
@@ -201,7 +203,7 @@ public class BookingMenu
                     found = true;
 
                     int customerID = int.Parse(parts[2]);
-                    int flightID = int.Parse(parts[2]);
+                    int flightID = int.Parse(parts[3]);
                     ObjectHelperMethods.UpdateCustomerBookingCount(customerID, -1);
                     ObjectHelperMethods.UpdateFlightPassengerCount(flightID, -1);
 
@@ -233,6 +235,7 @@ public class BookingMenu
         FileAndMenuHelperMethods.Pause();
     }
     
+    // Shows all bookings that have been made. 
     private void ViewAllBookings()
     {
         Console.Clear();
@@ -275,7 +278,7 @@ public class BookingMenu
 
         FileAndMenuHelperMethods.Pause();
     }
-
+    
     public void ShowMenu()
     {
         bool RUNNING = true;
@@ -288,12 +291,12 @@ public class BookingMenu
             Console.WriteLine("  ║                   Extreme Booking Menu!                  ║");
             Console.WriteLine("  ╚══════════════════════════════════════════════════════════╝" + RESET);
             Console.WriteLine("");
-            Console.WriteLine(CYAN+"\n Please select a choice from the options below (1-4):"+RESET);
+            Console.WriteLine(CYAN+"\n Please select a choice from the options below (Enter 1-4):"+RESET);
             Console.WriteLine(GREEN+"\n 1. Add Booking.");
             Console.WriteLine("\n 2. View All Bookings.");
             Console.WriteLine("\n 3. Delete Booking."+RESET);
             Console.WriteLine(RED+"\n 4. Back to Main Menu. "+RESET);
-            Console.Write(CYAN+"Select an option: "+RESET);
+            Console.Write(CYAN+"\nSelect an Option: "+RESET);
             
             string userChoice = Console.ReadLine()?.Trim();
             switch (userChoice)

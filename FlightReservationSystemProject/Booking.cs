@@ -1,5 +1,11 @@
 namespace FlightReservationSystemProject;
 
+/*
+ * Data model for single booking.
+ * Following further changes to the code, class is not used as expected but removal appears to
+ * lead to some errors. 
+ */
+
 public class Booking
 {
     private static int bookingNumCounter = 1;

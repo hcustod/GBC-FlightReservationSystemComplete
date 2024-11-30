@@ -24,13 +24,13 @@ public class FlightMenu
             Console.WriteLine("  ║                 Extreme Flight Menu!             ║");
             Console.WriteLine("  ╚══════════════════════════════════════════════════╝" + RESET);
             Console.WriteLine("");
-            Console.WriteLine(CYAN + "\n Please select a choice from the options below (1-4):" + RESET);
+            Console.WriteLine(CYAN + "\n Please select a choice from the options below (Enter 1-5):" + RESET);
             Console.WriteLine(GREEN + "\n 1. Add flight");
             Console.WriteLine("\n 2. View Flights");
             Console.WriteLine("\n 3. View Specific Flight");
             Console.WriteLine("\n 4. Delete Flight" + RESET);
             Console.WriteLine(RED + "\n 5. Back to Main Menu" + RESET);
-            Console.Write(CYAN + "\n Select an option:  " + RESET);
+            Console.Write(CYAN + "\nSelect an Option:  " + RESET);
 
             string userChoice = Console.ReadLine();
             switch (userChoice)
@@ -87,7 +87,7 @@ public class FlightMenu
         string flightOrigin;
         while (true)
         {
-            Console.Write(CYAN + "Enter Origin: " + RESET);
+            Console.Write(CYAN + "Enter Origin City: " + RESET);
             flightOrigin = Console.ReadLine()?.Trim();
             if (!string.IsNullOrWhiteSpace(flightOrigin) && InputValidation.IsValidName(flightOrigin))
             {
@@ -101,7 +101,7 @@ public class FlightMenu
         string flightDestination;
         while (true)
         {
-            Console.Write(CYAN + "Enter Destination: " + RESET);
+            Console.Write(CYAN + "Enter Destination City: " + RESET);
             flightDestination = Console.ReadLine()?.Trim();
             if (!string.IsNullOrWhiteSpace(flightDestination) && InputValidation.IsValidName(flightDestination))
             {
@@ -139,7 +139,7 @@ public class FlightMenu
             string newFlightLine = $"{flightNumber}|{flightOrigin}|{flightDestination}|{flightMaxSeats}|0";
             FileAndMenuHelperMethods.AppendToFile(FlightsFile, newFlightLine);
 
-            Console.WriteLine(GREEN + $"Flight added successfully! Number: {flightNumber}" + RESET);
+            Console.WriteLine(GREEN + $"\n  Flight added successfully! Number: {flightNumber}" + RESET);
         }
         catch (Exception ex)
         {
@@ -148,12 +148,8 @@ public class FlightMenu
 
         FileAndMenuHelperMethods.Pause();
     }
-
-    
-    
     
     // View all flights
-
     private void ViewAllFlights()
     {
         Console.Clear();
@@ -164,7 +160,6 @@ public class FlightMenu
         Console.WriteLine("  ╚═══════════════════════════════════════════════╝" + RESET);
         Console.WriteLine("");
         
-
         try
         {
             string[] lines = FileAndMenuHelperMethods.ReadFile(FlightsFile);
@@ -187,9 +182,7 @@ public class FlightMenu
         
         FileAndMenuHelperMethods.Pause();
     }
-
     
-
     // View single Flight via ID. 
     private void ViewSpecificFlight()
     {
@@ -232,6 +225,7 @@ public class FlightMenu
         FileAndMenuHelperMethods.Pause();
     }
 
+    // Deletes flight if it has no passengers. 
     private void DeleteFight()
     {
         Console.Clear();

@@ -134,7 +134,7 @@ public class BookingMenu
             // Increment customers booking count
             ObjectHelperMethods.UpdateCustomerBookingCount(customerId, 1);
 
-            // Update Flight passenger count
+            // Update Flight passenger count (Before helper method implemented).
             string[] updatedFlights = new string[flightLines.Length];
             for (int i = 0; i < flightLines.Length; i++)
             {
